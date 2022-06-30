@@ -8,7 +8,7 @@ def Comm(localAddress,destAddress):
     return a, b, a1, b1, b2
 
 def create_tx_socket():
-    # Create UDP socket for sending/publishing posDiff
+    # Create UDP socket for sending data
     UDPSocketSend = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
     print("Python UDP sockets: send", UDPSocketSend)
     # Sockets to which we expect to write

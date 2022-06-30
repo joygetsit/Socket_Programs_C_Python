@@ -24,6 +24,8 @@
 
 #include <time.h>
 #include <sys/time.h>
+// Define keyboard hit library
+//#include "conio.h"
 
 #define MAXLINE 1024
 

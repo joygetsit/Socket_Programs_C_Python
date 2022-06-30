@@ -1,10 +1,10 @@
-CC=clang
+CC=gcc
 CFLAGS+=
 LIBS =
 
-TARGET=socket_udp_server_C
+TARGET=UDP_socket_C
 HDRS=
-SRCS=socket_udp_server_C.c conio.c Socket_Communication_C.c
+SRCS=UDP_socket_C.c comms.c
 OBJS=$(SRCS:.c=.o)
 
 .PHONY: all
