@@ -1,0 +1,39 @@
+Build command for C programs
+- clang/gcc C_source_Filename1.c C_source_Filename2.c -o C_object_Filename
+- Compiler can be clang or gcc. Don't use the c99 version by using clang -stf=c99
+
+//#pragma pack(1)
+typedef struct payload_t {
+    uint32_t id;
+    uint32_t counter;
+    float temp;
+} payload;
+//#pragma pack()
+
+Keyboard press detection
+    // Define keyboard hit library
+    #include "conio.h"
+    while (!_kbhit())
+    {}
+
+Structures are in comm.c and comm.h files. Other than that, below options can also be used
+    Set kernel buffer size
+    int optVal1 = 3328; //1024*3.25 // Default size = 212992 for 256*256 packets with overhead,
+    //which me ans 3.25 * buffer size you want
+    int optLen11 = sizeof(int);
+    setsockopt(sockrecvfd, SOL_SOCKET, SO_RCVBUF, (char*)&optVal1, &optLen1);
+    printf("Setting SockOpt value: %d\n", optVal1);
+
+    // Test code for checking UDP rx and tx buffer sizes
+    int optVal;
+    int optLen = sizeof(int);
+    getsockopt(sockrecvfd, SOL_SOCKET, SO_RCVBUF, (char*)&optVal, &optLen);
+    printf("Initial SockOpt value: %d\n", optVal);
+
+""" Got initial code to transfer data between python and C applications
+https://gist.github.com/marcom04/22860f1168330605cac3c448982b0393
+Basic echo between Python client and C server via socket using Python ctypes
+Use above link to clean code and modularize it
+"""
+
+

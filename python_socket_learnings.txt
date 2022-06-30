@@ -1,0 +1,70 @@
+# Handles datatypes, encoding/decoding, conversion from/to bytes automatically
+# to make easy task of marshalling data between C and Python
+    from ctypes import *
+
+# Prepare data to send
+msgFromServer = "Hello UDP Client from server side"
+bytesToSend = str.encode(msgFromServer)
+
+print("UDP server up and listening")
+
+# Listen for incoming datagrams
+
+while (True):
+    bytesAddressPair = UDPRecv.recvfrom(bufferSize)
+
+    message1 = bytesAddressPair[0]
+    address1 = bytesAddressPair[1]
+
+    #clientMsg1 = "Message from Client:{}".format(message1)
+    #clientIP1 = "Client IP Address:{}".format(address1)
+    msg1 = message1.decode("utf-8")
+    # Split and and get indiviual data as float
+    msg1 = msg1.split(",")
+    name1, name2, name3 = list(map(float, msg1))
+    print(name1, name2, name3, type(name1))
+
+
+    # Sending a reply to client
+
+    UDPSend.sendto(bytesToSend, dest2Address)
+
+////
+    # try:
+    #     s.connect(server_addr)
+    #     print ("Connected to %s" % repr(server_addr))
+    # except:
+    #     print ("ERROR: Connection to %s refused" % repr(server_addr))
+    #     sys.exit(1)
+/////
+
+#
+try:
+    for i in range(5):
+        payload_out = Payload(1, i, random.uniform(-10, 30))
+        nsent = s.sendto(payload_out, serverAddressPort)
+        # Alternative: s.sendall(...): coontinues to send data until either
+        # all data has been sent or an error occurs. No return value.
+        print("Sent %d bytes" % nsent)
+finally:
+    print("Closing socket")
+    s.close()
+
+# Time difference
+	import timeit
+		starttime1 = timeit.default_timer()
+		print("The time difference is :", timeit.default_timer() - starttime1)
+
+
+# Converts bytes to string - "".format(data)
+	clientIP = "Client IP Address:{}\n".format(address)
+
+# To see udp buffer in Linux
+	ss -tulpn -u -n -p
+    
+# Define data to send, Prepare data and encode it to bytes
+	msgFromServer = "Hello UDP Client from client side"
+	bytesToSend = str.encode(msgFromServer)
+	msgFromServer = ("John", "20", "98.8856789")
+	msgFromServer = ",".join(msgFromServer)
+	bytesToSend = bytes(msgFromServer, 'utf-8')
