@@ -49,24 +49,24 @@ int main(int argc, char* argv[])
     int         setup_sending_socket = 0, setup_receive_socket = 0;
     uint16_t    portsend = PORTSEND;
     uint16_t    portrecv = PORTRECV;
-	setup_sending_socket = Get_UDP_SendSocket(),
+    setup_sending_socket = Get_UDP_SendSocket(),
     FillDestinationPortInfo(SendtoUDPSocket_IP, portsend);
-	setup_receive_socket = Get_UDP_RecvSocket(ReceiveUDPSocket_IP, portrecv);
+    setup_receive_socket = Get_UDP_RecvSocket(ReceiveUDPSocket_IP, portrecv);
     printf("sockets: send - %d , receive - %d\n", setup_sending_socket, setup_receive_socket);
-	char bufferrecv[MAXLINE];
-	char buffersend[sizeof(payload_send_msg)];
+    char bufferrecv[MAXLINE];
+    char buffersend[sizeof(payload_send_msg)];
 
-	int Received_Byte_Size;
+    int Received_Byte_Size;
 
     // int j = 0;
     int Received_ID = 0;
 
-    /***** Logging - Create file and open it **********************/
-    int logging = 1;
+    /************ Logging - Create file and open it ***************/
+    int logging     = 1;
     FILE *fpt;
     char filepath[] = "/home/joy/Documents/HapticTestbedLinux/Working_Testbed/Data_and_Plots/Timing_HD_decoy.csv";
 
-    if(fopen(filepath, "w+") == NULL ) {
+    if (fopen(filepath, "w+") == NULL) {
         fprintf(stderr, "Couldn't open file to write: Provide a proper file path\n");
         logging = 0;
     }
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
         fpt = fopen(filepath, "w+");
         fprintf(fpt, "ID, Received_ID, Timer_Start(us), Timer_Loop(us), Time_to_receive(us), Data Sent Z\n");
     }
-    /***** Logging - Create file and open it **********************/
+    /************ Logging - Create file and open it ***************/
 
     /* Run the main loop. */
     while(1)
