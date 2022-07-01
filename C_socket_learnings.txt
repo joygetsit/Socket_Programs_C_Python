@@ -36,4 +36,10 @@ Basic echo between Python client and C server via socket using Python ctypes
 Use above link to clean code and modularize it
 """
 
-
+# Test bidirectional data transmission
+	- Go to folder where the files are located and 
+	Run 'python3 py_receive_array_and_send.py' & 'python3 py_send_array_and_receive.py' 
+	on separate terminals to test bidirectional communication between python instances 
+	- Go to folder where the files are located and 
+	Run 'clang -I. psenvpub.c -lzmq -o psenvpub' and 'clang -I. psenvsub.c -lzmq -o psenvsub'
+	on separate terminals to test bidirectional communication between C instances
