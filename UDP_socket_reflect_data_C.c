@@ -1,18 +1,19 @@
-// build command
-// gcc C_other_side.c comms.c -o C_other_side
+/*************************************************************
+Reflect back data from application.
+Use this as a decoy to test proper functionality.
+*************************************************************/
 
-// Feedback on/off
-#define Enable_Haptics 1 //1 - for enable, 0 - for disable
+// Feedback on(1)/off(0)
+#define Enable_Haptics 1
 
 // Include the header file for Socket Communication
 #include "comms.h"
-#define PORTSEND 18009
-#define PORTRECV 18007
+#define PORTSEND 18007
+#define PORTRECV 18009
 #define SendtoUDPSocket_IP "127.0.0.1"//"10.0.0.4"//
 #define ReceiveUDPSocket_IP "127.0.0.1"//"10.0.0.3"//
-
-// Define clock timestamp
-int64_t start_time = 0, send_time = 0, receive_time = 0;
+int     setup_sending_socket;
+int     setup_receive_socket;
 
 /* Data structures to send and receive */
 typedef struct payloadrecv_t {
@@ -35,8 +36,17 @@ typedef struct payloadsend_t {
 } payload_send;
 /* Data structures to send and receive */
 
-static payload_send payload_send_msg;
-uint32_t temp_ID;
+static  payload_send payload_send_msg;
+char    bufferrecv[MAXLINE];
+char    buffersend[sizeof(payload_send_msg)];
+int     receivedbytesize = 0;
+double  temp_copy[16];
+
+/* Define clock timestamp */
+int64_t Timer_Start     = 0,
+        Timer_Loop      = 0,
+        Time_to_receive = 0;
+
 float tempx = 0, tempy = 0, tempz = 0;
 // double tempdouble[16];
 
@@ -48,20 +58,14 @@ int main(int argc, char* argv[])
 {
 
     uint32_t ID = 0;
-   
-    /* Setup connection */
-    printf("Connection setup\n");
-    int setup_sending_socket =0, setup_receive_socket = 0;
-    uint16_t portsend = PORTSEND;
-    uint16_t portrecv = PORTRECV;
-	setup_sending_socket = Get_UDP_SendSocket();
-    FillDestinationPortInfo(SendtoUDPSocket_IP, portsend);
-	setup_receive_socket = Get_UDP_RecvSocket(ReceiveUDPSocket_IP, portrecv);
-    printf("sockets: %d , %d\n", setup_sending_socket, setup_receive_socket);
-	char bufferrecv[MAXLINE];
-	char buffersend[sizeof(payload_send_msg)];
+    uint32_t temp_ID;
 
-	int Received_Byte_Size;
+    /* Communication setup */
+    setup_sending_socket = 0, setup_receive_socket = 0;
+	setup_sending_socket = Get_UDP_SendSocket();
+    FillDestinationPortInfo(SendtoUDPSocket_IP, PORTSEND);
+	setup_receive_socket = Get_UDP_RecvSocket(ReceiveUDPSocket_IP, PORTRECV);
+    printf("sockets: %d , %d\n", setup_sending_socket, setup_receive_socket);
 
     /* Run the main loop. */
     while(1)
@@ -72,6 +76,7 @@ int main(int argc, char* argv[])
 
         //Start Time
         start_time = s_clock();
+        printf("Start Time: %ld us\n", Timer_Start);
 
         if (Enable_Haptics == 1)
         {
@@ -88,7 +93,13 @@ int main(int argc, char* argv[])
             temp_ID = precv->IDr;
             tempx = precv->moveDXr;
             tempy = precv->moveDYr;
-            tempz = precv->moveDZr;                
+            tempz = precv->moveDZr;
+//            for (int i = 0; i<16; i++)
+//            {
+//                temp_copy[i] = precv->receive[i];
+//            }
+//            printf("Received: ID_received=%d, Data=%f\n\n",
+//                    precv->IDr, precv->receive[12]);
         }
 
         /********* Receive data ****************************/
@@ -108,6 +119,7 @@ int main(int argc, char* argv[])
         payload_send *psend = (payload_send*) buffersend;
 
         printf("Data sent: %f %f %f - %u\n", psend->moveDXs,psend->moveDYs,psend->moveDZs, psend->IDs);
+//        printf("Data sent: %f %f %f - %u\n", psend->send[12],psend->send[13],psend->send[14], psend->IDs);
 
         send_payload(psend, sizeof(payload_send));
 
